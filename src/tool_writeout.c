@@ -390,10 +390,12 @@ void ourWriteOut(const char *writeinfo, struct per_transfer *per,
           end = strchr(ptr, '}');
           if(end) {
             struct curl_header *header;
+            char putback = *end;
             *end = 0;
             if(CURLHE_OK == curl_easy_header(per->curl, ptr, 0, CURLH_HEADER,
                                              -1, &header))
               fputs(header->value, stream);
+            *end = putback;
             ptr = end + 1; /* pass the end */
           }
           else
